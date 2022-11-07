@@ -1,10 +1,10 @@
 'use strict';
 
 // Selecting elements
-const score0El = document.querySelector('#score--0');
-const score1El = document.getElementById('score--1');
-const current0El = document.getElementById('current--0');
-const current1El = document.getElementById('current--1');
+// const score0El = document.querySelector('#score--0');
+// const score1El = document.getElementById('score--1');
+// const current0El = document.getElementById('current--0');
+// const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
@@ -15,6 +15,12 @@ const selectPlayerCurrentScore = player =>
 const selectPlayerHighScore = player =>
   document.getElementById(`score--${player}`);
 
+// Starting values
+let scores = [0, 0];
+let currentScore = 0;
+let activePlayer = 0;
+let playing = true;
+
 //   Functions
 const switchPlayer = function () {
   selectPlayer(activePlayer).classList.toggle('player--active');
@@ -24,16 +30,21 @@ const switchPlayer = function () {
   selectPlayer(activePlayer).classList.toggle('player--active');
 };
 
-// Starting conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
-
-//
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+const init = function () {
+  selectPlayer(activePlayer).classList.remove('player--winner');
+  selectPlayer(activePlayer).classList.remove('player--active');
+  selectPlayerCurrentScore('1').textContent = 0;
+  selectPlayerHighScore('1').textContent = 0;
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+  selectPlayer(activePlayer).classList.add('player--active');
+  selectPlayerCurrentScore(activePlayer).textContent = 0;
+  selectPlayerHighScore(activePlayer).textContent = 0;
+  diceEl.classList.add('hidden');
+};
+init();
 
 // Rolling dice functionality
 btnRoll.addEventListener('click', function () {
@@ -77,3 +88,5 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+btnNew.addEventListener('click', init);
